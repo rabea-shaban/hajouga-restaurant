@@ -1,0 +1,7 @@
+# لتوجيه جميع المسارات إلى index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteHistory ^/index\.html$ - [L]
+  RewriteRule ^(.*)$ /index.html [QSA,L]
+</IfModule>
