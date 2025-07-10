@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+body {
+  direction: rtl;
+}
+
+.banner {
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+.bannerHome {
+  background-image: url("banner.png");
+}
+.AboutBanner {
+  background-image: url("MenouBanner.png");
+}
+.MenouBanner {
+  background-image: url("MenouBanner.png");
+}
+
+/* CSS لتحسين الأزرار الخاصة بالتنقل */
+.swiper-button-prev-5,
+.swiper-button-next-5 {
+  position: absolute;
+  top: 10px; /* تغيير من 50% إلى 10px لتكون الأزرار أعلى الصورة */
+  transform: translateY(0);
+  background-color: rgba(0, 0, 0, 0.5); /* خلفية داكنة لتكون الأزرار مرئية */
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* إضافة الظل لجعل الأزرار بارزة */
+  z-index: 10; /* جعل الأزرار أعلى من الصورة */
+}
+
+.swiper-button-prev-5:hover,
+.swiper-button-next-5:hover {
+  background-color: rgba(255, 165, 0, 0.7);
+}
+
+.swiper-button-prev-5 {
+  left: -90px;
+  top: 65%;
+  transform: translateY(-50%);
+}
+
+.swiper-button-next-5 {
+  right: -90px;
+  top: 65%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 640px) {
+  .swiper-button-prev-5 {
+    left: -1px;
+    top: 65%;
+
+    transform: translateY(-50%);
+  }
+  .swiper-button-next-5 {
+    right: -0px;
+    top: 65%;
+    transform: translateY(-50%);
+  }
+}
+
+.CategoriesWithProducts {
+  .top,
+  .bottom {
+    background: url(Group_1L.png);
+    width: 100%;
+    height: 20px;
+    background-size: cover;
+    background-position: center;
+  }
+}
