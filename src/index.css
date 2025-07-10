@@ -14,13 +14,13 @@ body {
   position: relative;
 }
 .bannerHome {
-  background-image: url("banner.png");
+  background-image: url("/banner.png");
 }
 .AboutBanner {
-  background-image: url("MenouBanner.png");
+  background-image: url("/MenouBanner.png");
 }
 .MenouBanner {
-  background-image: url("MenouBanner.png");
+  background-image: url("/MenouBanner.png");
 }
 
 /* CSS لتحسين الأزرار الخاصة بالتنقل */
@@ -72,7 +72,7 @@ body {
 .CategoriesWithProducts {
   .top,
   .bottom {
-    background: url(Group_1L.png);
+    background: url("/Group_1L.png");
     width: 100%;
     height: 20px;
     background-size: cover;
