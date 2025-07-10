@@ -3,11 +3,9 @@ import { useMemo, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import { supabase } from "../../database/supabaseClient";
 
-import LoadingSpinner from "../../components/LoadingSpinner";
-
-// تعريف نوع البيانات
 interface Category {
   id: number;
   name: string;
@@ -34,9 +32,9 @@ const fetchAllProducts = async (): Promise<Product[]> => {
   return data as Product[];
 };
 
-export default function CategoriesWithProductSlider() {
+const CategoriesWithProductSlider = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [visibleProducts, setVisibleProducts] = useState<number>(4); // عدد المنتجات التي ستظهر مبدئيًا
+  const [visibleProducts, setVisibleProducts] = useState<number>(4);
 
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["categories"],
@@ -91,27 +89,41 @@ export default function CategoriesWithProductSlider() {
             }}
             modules={[Pagination, Navigation]}
             className="mySwiper">
-            {categories?.map((cat) => (
-              <SwiperSlide key={cat.id} className="cursor-pointer">
+            {categories?.map((category) => (
+              <SwiperSlide key={category.id} className="cursor-pointer">
                 <div className="overflow-hidden rounded-md">
                   <img
-                    onClick={() => setSelectedCategory(cat.id)}
-                    src={cat.Img_Url}
-                    alt={cat.name}
-                    className="rounded-md transition-all hover:scale-110"
+                    onClick={() => setSelectedCategory(category.id)}
+                    src={category.Img_Url}
+                    alt={category.name}
+                    className={`rounded-md transition-all hover:scale-110 ${
+                      selectedCategory === category.id
+                        ? "ring-4 ring-orange-400"
+                        : ""
+                    }`}
                   />
+                </div>
+                <div className="mt-2 text-white font-bold text-sm">
+                  {category.name}
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
 
-          <div className="swiper-button-prev-5 absolute top-0 left-0 transform -translate-y-1/2 text-white p-4 rounded-full cursor-pointer transition-all shadow-lg z-10">
-            <IoIosArrowBack className="w-[20px] h-[20px] md:w-[40px] md:h-[40px]  text-white" />
+          <div className="swiper-button-prev-5 absolute top-1/2 left-0 -translate-y-1/2 text-white p-4 rounded-full cursor-pointer transition-all shadow-lg z-10 bg-orange-400 hover:bg-orange-500">
+            <IoIosArrowBack className="w-[20px] h-[20px] md:w-[40px] md:h-[40px]" />
           </div>
-          <div className="swiper-button-next-5 absolute top-0 right-0 transform -translate-y-1/2 text-white p-4 rounded-full cursor-pointer transition-all shadow-lg z-10">
-            <IoIosArrowForward className="w-[20px] h-[20px] md:w-[40px] md:h-[40px]  text-white" />
+          <div className="swiper-button-next-5 absolute top-1/2 right-0 -translate-y-1/2 text-white p-4 rounded-full cursor-pointer transition-all shadow-lg z-10 bg-orange-400 hover:bg-orange-500">
+            <IoIosArrowForward className="w-[20px] h-[20px] md:w-[40px] md:h-[40px]" />
           </div>
         </div>
+        {selectedCategory !== null && (
+          <button
+            className="ml-4 mt-2 text-orange-400 underline text-sm"
+            onClick={() => setSelectedCategory(null)}>
+            عرض الكل
+          </button>
+        )}
       </div>
 
       <div>
@@ -121,24 +133,21 @@ export default function CategoriesWithProductSlider() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-5">
-            {filteredProducts?.slice(0, visibleProducts)?.map((prod) => (
+            {filteredProducts?.slice(0, visibleProducts)?.map((product) => (
               <div
-                key={prod.id}
-                className="bg-white shadow rounded-md hover:shadow-lg hover:scale-105 transition-all duration-300ex flex-wrap justify-evenly items-center">
-                <div className="top m-0 w-full shadow rounded-md"></div>
-
-                <div className="w-[100%] px-4">
+                key={product.id}
+                className="bg-white shadow rounded-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex flex-col items-center">
+                <div className="w-full px-4 pt-4">
                   <img
-                    src={prod.image_url}
-                    alt={prod.name}
-                    className="w-full h-auto object-cover rounded-md"
+                    src={product.image_url}
+                    alt={product.name}
+                    className="w-full h-40 object-cover rounded-md"
                   />
                 </div>
-                <div className="w-[100%] p-4 m-auto text-center">
-                  <h3 className="text-lg font-bold mb-1">{prod.name}</h3>
-                  <p className="text-gray-700">{prod.price} ج.م</p>
+                <div className="w-full p-4 text-center">
+                  <h3 className="text-lg font-bold mb-1">{product.name}</h3>
+                  <p className="text-gray-700">{product.price} ج.م</p>
                 </div>
-                <div className="top m-0 w-full shadow rounded-md"></div>
               </div>
             ))}
           </div>
@@ -155,4 +164,6 @@ export default function CategoriesWithProductSlider() {
       </div>
     </div>
   );
-}
+};
+
+export default CategoriesWithProductSlider;
